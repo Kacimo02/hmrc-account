@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HMRC</title>
+
+<!-- iPhone home screen icon -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+<!-- Favicons -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="shortcut icon" href="favicon-32x32.png">
+
+<!-- Theme color for mobile browser UI -->
+<meta name="theme-color" content="#0d9488">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HMRC">
+
+<style>
+/* ============================================================
+   HMRC — shared styles
+   ============================================================ */
+:root{
+  --navy:#12263f; --navy-dark:#0b1a2e;
+  --accent:#1d4ed8; --accent-dark:#173ea8; --accent-soft:#e7effc;
+  --text:#1f2937; --muted:#52607a;
+  --border:#d8dee9; --bg:#f4f6fa; --card:#ffffff;
+  --notice-bg:#ffe08a; --notice-text:#3b2f00;
+  --success:#0f7b3d; --error:#b42318;
+  --radius:8px; --shadow:0 1px 3px rgba(16,24,40,.08);
+  --font:"Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--text);background:var(--bg);line-height:1.55}
+h1{font-size:2rem;line-height:1.2;margin:0 0 .75rem}
+h2{font-size:1.25rem;margin:0 0 .75rem}
+h3{font-size:1.05rem;margin:0 0 .5rem}
+p{margin:0 0 .75rem}
+a{color:var(--accent)}
+a:hover{color:var(--accent-dark)}
+code{background:#eef1f6;padding:.1em .35em;border-radius:4px;font-size:.9em}
+.container{max-width:1060px;margin:0 auto;padding:0 20px}
+
+/* ---------- Header ---------- */
+.site-header{background:var(--navy);color:#fff}
+.header-inner{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:14px 20px}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700;font-size:1.15rem}
+.brand:hover{color:#fff}
+.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:6px;background:var(--accent);color:#fff;font-weight:800;overflow:hidden}
+.brand-mark img{width:100%;height:100%;object-fit:cover}
+.main-nav{margin-left:auto;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.nav-link{color:#dbe4f0;text-decoration:none;padding:8px 12px;border-radius:6px;font-size:.95rem;border:0;background:none;cursor:pointer;font-family:inherit}
+.nav-link:hover{background:rgba(255,255,255,.12);color:#fff}
+.nav-link.active{background:rgba(255,255,255,.16);color:#fff;font-weight:600}
+.nav-toggle{display:none;margin-left:auto;background:var(--navy-dark);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:6px;padding:8px 14px;font-family:inherit;font-size:.95rem;cursor:pointer}
+
+
+/* ---------- Main / breadcrumb ---------- */
+.main{padding:32px 20px 56px}
+.page-head{margin-bottom:20px}
+.breadcrumb ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:0 0 14px;font-size:.88rem;color:var(--muted)}
+.breadcrumb li+li::before{content:"\203A";margin-right:6px;color:var(--muted)}
+.breadcrumb a{color:var(--accent);text-decoration:none}
+.breadcrumb a:hover{text-decoration:underline}
+
+/* ---------- Cards ---------- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;margin-bottom:22px}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:22px}
+.stat-card{background:var(--card);border:1px solid var(--border);border-left:5px solid var(--accent);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px 18px}
+.stat-card .stat-label{font-size:.85rem;color:var(--muted);margin-bottom:4px}
+.stat-card .stat-value{font-size:1.45rem;font-weight:700;margin:0}
+.stat-card .stat-note{font-size:.8rem;color:var(--muted);margin:4px 0 0}
+
+/* ---------- Tags ---------- */
+.tag{display:inline-block;padding:3px 12px;border-radius:999px;font-size:.82rem;font-weight:700;background:#e5f4ea;color:var(--success)}
+.tag-neutral{background:var(--accent-soft);color:var(--accent-dark)}
+
+/* ---------- Tables ---------- */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border);border-radius:var(--radius);background:#fff}
+table{width:100%;border-collapse:collapse;font-size:.93rem;min-width:560px}
+caption{text-align:left;font-weight:700;padding:12px 14px 4px;color:var(--muted);font-size:.85rem}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+thead th{background:#f0f3f8;font-size:.82rem;text-transform:uppercase;letter-spacing:.03em;color:var(--muted)}
+tbody tr:last-child td{border-bottom:0}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---------- Definition lists ---------- */
+dl.details{display:grid;grid-template-columns:minmax(140px,220px) 1fr;gap:8px 20px;margin:0}
+dl.details dt{color:var(--muted);font-weight:600}
+dl.details dd{margin:0}
+ul.assumptions{margin:0 0 0 1.1rem;padding:0}
+ul.assumptions li{margin-bottom:6px}
+.section-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+
+/* ---------- Timeline ---------- */
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{position:relative;padding:0 0 22px 30px;border-left:2px solid var(--border);margin-left:8px}
+.timeline li:last-child{padding-bottom:0;border-left-color:transparent}
+.timeline li::before{content:"";position:absolute;left:-8px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 2px var(--border)}
+.timeline .tl-date{font-size:.82rem;color:var(--muted)}
+.timeline .tl-title{font-weight:700}
+
+/* ---------- Forms ---------- */
+.form-group{margin-bottom:16px}
+label{display:block;font-weight:600;margin-bottom:6px}
+input[type=email],input[type=password],input[type=text]{width:100%;padding:11px 12px;border:2px solid var(--border);border-radius:6px;font-size:1rem;font-family:inherit;background:#fff}
+input:focus{outline:3px solid var(--accent-soft);border-color:var(--accent)}
+.password-wrap{position:relative}
+.password-wrap input{padding-right:70px}
+.password-wrap button{position:absolute;right:6px;top:50%;transform:translateY(-50%);border:0;background:none;color:var(--accent);font-family:inherit;font-size:.88rem;cursor:pointer;font-weight:600;padding:6px 8px}
+.btn{display:inline-block;padding:11px 22px;border-radius:6px;font-size:1rem;font-family:inherit;font-weight:600;cursor:pointer;text-decoration:none;border:0}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-dark);color:#fff}
+.btn-secondary{background:#eef1f6;color:var(--text);border:1px solid var(--border)}
+.btn-secondary:hover{background:#e2e7ef}
+.alert{padding:12px 14px;border-radius:6px;margin:0 0 16px;font-size:.93rem}
+.alert-error{background:#fdecea;color:var(--error);border:1px solid #f5c6c0}
+.alert-info{background:var(--accent-soft);color:var(--accent-dark);border:1px solid #c7d8f6}
+
+/* ---------- Login ---------- */
+.login-grid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px;align-items:start}
+
+/* ---------- Link cards ---------- */
+.link-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px}
+.link-card{display:block;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-decoration:none;color:var(--text);box-shadow:var(--shadow);cursor:pointer}
+.link-card:hover{border-color:var(--accent);box-shadow:0 2px 8px rgba(16,24,40,.12)}
+.link-card .lc-title{font-weight:700;color:var(--accent);margin-bottom:4px}
+.link-card p{margin:0;font-size:.88rem;color:var(--muted)}
+
+/* ---------- Messages ---------- */
+.msg-list{list-style:none;margin:0;padding:0}
+.msg-item{border:1px solid var(--border);border-radius:var(--radius);background:#fff;margin-bottom:12px;overflow:hidden}
+.msg-item summary{cursor:pointer;list-style:none;display:flex;gap:12px;align-items:flex-start;padding:16px 18px}
+.msg-item summary::-webkit-details-marker{display:none}
+.msg-item summary:hover{background:#f7f9fc}
+.msg-dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;background:var(--accent);margin-top:7px}
+.msg-body{flex:1}
+.msg-subject{font-weight:700}
+.msg-preview{font-size:.88rem;color:var(--muted)}
+.msg-date{flex:0 0 auto;font-size:.82rem;color:var(--muted);white-space:nowrap}
+.msg-full{border-top:1px solid var(--border);padding:14px 18px;background:#fbfcfe;font-size:.93rem}
+.msg-tag{font-size:.72rem;font-weight:700;color:#6b21a8;background:#f2e8ff;border-radius:4px;padding:2px 7px;margin-left:8px;vertical-align:middle}
+
+/* ---------- Footer ---------- */
+.site-footer{background:var(--navy-dark);color:#aebdd1;padding:28px 20px;margin-top:40px;font-size:.88rem}
+.site-footer a{color:#cdd9ea}
+.site-footer p{margin-bottom:6px}
+
+/* ---------- Utilities ---------- */
+.muted{color:var(--muted)}
+.mt-0{margin-top:0}
+.hr{border:0;border-top:1px solid var(--border);margin:22px 0}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid #ffbf47;outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- Page views (SPA) ---------- */
+.page-view{display:none}
+.page-view.active{display:block}
+
+/* ---------- Responsive ---------- */
+@media (max-width:760px){
+  .nav-toggle{display:block}
+  .main-nav{display:none;width:100%;flex-direction:column;align-items:stretch;padding-bottom:12px}
+  .main-nav.open{display:flex}
+  .nav-link{padding:11px 12px}
+  h1{font-size:1.6rem}
+  .login-grid{grid-template-columns:1fr}
+  .main{padding:24px 16px 44px}
+  dl.details{grid-template-columns:1fr;gap:2px}
+  dl.details dt{margin-top:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#" onclick="showPage('dashboard');return false;">
+      <span class="brand-mark" aria-hidden="true"><img src="icon.png" alt=""></span>
+      HMRC
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="main-nav" id="nav-toggle">Menu</button>
+    <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+      <a href="#" class="nav-link" data-page="dashboard" onclick="showPage('dashboard');return false;">Home</a>
+      <a href="#" class="nav-link" data-page="profile" onclick="showPage('profile');return false;">Personal Profile</a>
+      <a href="#" class="nav-link" data-page="employment" onclick="showPage('employment');return false;">Employment and Income</a>
+      <a href="#" class="nav-link" data-page="messages" onclick="showPage('messages');return false;">Messages</a>
+      <button type="button" class="nav-link" data-sign-out onclick="signOut()">Sign out</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container main" id="main">
+
+  <!-- ========== LOGIN PAGE ========== -->
+  <div class="page-view active" id="page-login">
+    <div class="page-head">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li aria-current="page">Sign in</li></ol></nav>
+      <h1>Sign in to your HMRC</h1>
+      
+    </div>
+
+    <div style="max-width:520px;margin:0 auto;">
+      <section class="card" aria-labelledby="signin-heading">
+        <h2 id="signin-heading" class="sr-only">Sign in form</h2>
+        <form id="login-form" novalidate>
+          <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" id="email" name="email" autocomplete="username" spellcheck="false" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrap">
+              <input type="password" id="password" name="password" autocomplete="current-password" required>
+              <button type="button" id="toggle-password" aria-label="Show password">Show</button>
+            </div>
+          </div>
+
+          <p class="alert alert-error" id="login-error" role="alert" hidden></p>
+
+          <button class="btn btn-primary" type="submit">Sign in</button>
+        </form>
+      </section>
+
+
+    </div>
+  </div>
+
+  <!-- ========== DASHBOARD PAGE ========== -->
+  <div class="page-view" id="page-dashboard" data-requires-auth="true">
+    <div class="page-head">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li aria-current="page">Home</li></ol></nav>
+      <h1>Welcome back, <span data-profile="fullName">the account holder</span>.</h1>
+      <p><span class="tag">Account status: <span data-profile="status">Active</span></span></p>
+    </div>
+
+    <h2>Your account at a glance</h2>
+    <div class="cards-grid" role="list">
+      <div class="stat-card" role="listitem">
+        <p class="stat-label">Estimated monthly gross income</p>
+        <p class="stat-value" data-stat="gross">—</p>
+        <p class="stat-note">Current role</p>
+      </div>
+      <div class="stat-card" role="listitem">
+        <p class="stat-label">Estimated monthly Income Tax</p>
+        <p class="stat-value" data-stat="tax">—</p>
+        <p class="stat-note">Employee PAYE</p>
+      </div>
+      <div class="stat-card" role="listitem">
+        <p class="stat-label">Estimated monthly employee NI</p>
+        <p class="stat-value" data-stat="ni">—</p>
+        <p class="stat-note">Class 1 employee</p>
+      </div>
+      <div class="stat-card" role="listitem">
+        <p class="stat-label">Estimated monthly take-home pay</p>
+        <p class="stat-value" data-stat="take">—</p>
+        <p class="stat-note">After tax and NI</p>
+      </div>
+    </div>
+
+    <div class="section-grid">
+      <section class="card" aria-labelledby="profile-summary">
+        <h2 id="profile-summary">Personal profile</h2>
+        <dl class="details">
+          <dt>Full name</dt><dd data-profile="fullName">—</dd>
+          <dt>Email</dt><dd data-profile="email">—</dd>
+          <dt>Telephone</dt><dd data-profile="phone">—</dd>
+        </dl>
+        <p class="mt-0" style="margin-top:14px"><a href="#" onclick="showPage('profile');return false;">View full profile</a></p>
+      </section>
+
+      <section class="card" aria-labelledby="employment-summary">
+        <h2 id="employment-summary">Employment summary</h2>
+        <dl class="details">
+          <dt>Current employer</dt><dd>Hudah Grp Ltd</dd>
+          <dt>Job title</dt><dd>IT Lead</dd>
+          <dt>Since</dt><dd>18 February 2026</dd>
+          <dt>Employers on record</dt><dd>3</dd>
+        </dl>
+        <p class="mt-0" style="margin-top:14px"><a href="#" onclick="showPage('employment');return false;">View employment and income</a></p>
+      </section>
+    </div>
+
+    <h2>Go to</h2>
+    <div class="link-cards">
+      <a class="link-card" href="#" onclick="showPage('profile');return false;">
+        <p class="lc-title">Personal Profile</p>
+        <p>View your personal, contact and address details.</p>
+      </a>
+      <a class="link-card" href="#" onclick="showPage('employment');return false;">
+        <p class="lc-title">Employment and Income</p>
+        <p>Employment history and tax estimates.</p>
+      </a>
+      <a class="link-card" href="#" onclick="showPage('messages');return false;">
+        <p class="lc-title">Messages</p>
+        <p>Messages for your account.</p>
+      </a>
+    </div>
+
+    <section class="card" aria-labelledby="activity-heading">
+      <h2 id="activity-heading">Recent activity</h2>
+      
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Recent account activity</caption>
+          <thead><tr><th scope="col">Date</th><th scope="col">Activity</th><th scope="col">Type</th></tr></thead>
+          <tbody>
+            <tr><td>27 October 2026</td><td>You viewed your employment summary</td><td></td></tr>
+            <tr><td>24 October 2026</td><td>Message "Income summary available" opened</td><td></td></tr>
+            <tr><td>19 October 2026</td><td>Profile details page viewed</td><td></td></tr>
+            <tr><td>12 October 2026</td><td>Welcome message sent to your inbox</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <!-- ========== PROFILE PAGE ========== -->
+  <div class="page-view" id="page-profile" data-requires-auth="true">
+    <div class="page-head">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="#" onclick="showPage('dashboard');return false;">Home</a></li><li aria-current="page">Personal Profile</li></ol></nav>
+      <h1>Personal Profile</h1>
+      
+    </div>
+
+    <section class="card" aria-labelledby="personal-heading">
+      <h2 id="personal-heading">Personal details</h2>
+      <dl class="details">
+        <dt>Full name</dt><dd data-profile="fullName">—</dd>
+        <dt>Date of birth</dt><dd data-profile="dob">—</dd>
+        <dt>Account status</dt><dd><span class="tag" data-profile="status">Active</span></dd>
+      </dl>
+    </section>
+
+    <section class="card" aria-labelledby="contact-heading">
+      <h2 id="contact-heading">Contact details</h2>
+      <dl class="details">
+        <dt>Email</dt><dd data-profile="email">—</dd>
+        <dt>Telephone</dt><dd data-profile="phone">—</dd>
+      </dl>
+    </section>
+
+    <section class="card" aria-labelledby="address-heading">
+      <h2 id="address-heading">Address</h2>
+      <dl class="details">
+        <dt>Current address</dt><dd data-profile="addressLines">—</dd>
+      </dl>
+    </section>
+  </div>
+
+  <!-- ========== EMPLOYMENT PAGE ========== -->
+  <div class="page-view" id="page-employment" data-requires-auth="true">
+    <div class="page-head">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="#" onclick="showPage('dashboard');return false;">Home</a></li><li aria-current="page">Employment and Income</li></ol></nav>
+      <h1>Employment and Income</h1>
+      
+    </div>
+
+    <section class="card" aria-labelledby="history-heading">
+      <h2 id="history-heading">Employment history</h2>
+      <ol class="timeline">
+        <li>
+          <p class="tl-date">10 October 2022 – 30 April 2023</p>
+          <p class="tl-title">Amazon</p>
+          <p class="muted">Gross monthly salary: £1,700 (monthly basis)</p>
+        </li>
+        <li>
+          <p class="tl-date">4 May 2023 – 15 February 2026</p>
+          <p class="tl-title">Sparta Analysis — Consultant</p>
+          <p class="muted">Gross monthly salary: £2,500 (monthly basis)</p>
+        </li>
+        <li>
+          <p class="tl-date">18 February 2026 – Present</p>
+          <p class="tl-title">Hudah Grp Ltd — IT Lead</p>
+          <p class="muted">Gross monthly salary: £3,500 (monthly basis)</p>
+        </li>
+      </ol>
+
+      <hr class="hr">
+      <div class="table-wrap">
+        <table>
+          <caption>Employment history (chronological)</caption>
+          <thead>
+            <tr><th scope="col">Employer</th><th scope="col">Job title</th><th scope="col">Start date</th><th scope="col">End date</th><th scope="col" class="num">Gross monthly salary</th></tr>
+          </thead>
+          <tbody id="employment-rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="tax-heading">
+      <h2 id="tax-heading">Illustrative tax estimates</h2>
+      
+      <div class="table-wrap">
+        <table>
+          <caption>Illustrative monthly figures by employer</caption>
+          <thead>
+            <tr><th scope="col">Employer</th><th scope="col" class="num">Gross monthly</th><th scope="col" class="num">Gross annual</th><th scope="col" class="num">Income Tax / month</th><th scope="col" class="num">Employee NI / month</th><th scope="col" class="num">Est. take-home / month</th></tr>
+          </thead>
+          <tbody id="tax-rows"></tbody>
+        </table>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ========== MESSAGES PAGE ========== -->
+  <div class="page-view" id="page-messages" data-requires-auth="true">
+    <div class="page-head">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="#" onclick="showPage('dashboard');return false;">Home</a></li><li aria-current="page">Messages</li></ol></nav>
+      <h1>Messages</h1>
+      
+    </div>
+
+    <ul class="msg-list">
+      <li>
+        <details class="msg-item">
+          <summary>
+            <span class="msg-dot" aria-hidden="true"></span>
+            <span class="msg-body">
+              <span class="msg-subject">Welcome to your HMRC</span><br>
+              <span class="msg-preview">Hello and welcome — this message explains what your account can show…</span>
+            </span>
+            <span class="msg-date">14 October 2026</span>
+          </summary>
+          <div class="msg-full">
+            <p>Hello and welcome to your HMRC.</p>
+            <p>Your account is set up. From the dashboard you can view your profile summary, employment history, and tax estimates.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="msg-item">
+          <summary>
+            <span class="msg-dot" aria-hidden="true"></span>
+            <span class="msg-body">
+              <span class="msg-subject">Your employment details</span><br>
+              <span class="msg-preview">Your employment record lists three employers in chronological order…</span>
+            </span>
+            <span class="msg-date">20 October 2026</span>
+          </summary>
+          <div class="msg-full">
+            <p>Your employment record shows three employers: Amazon, Sparta Analysis, and Hudah Grp Ltd.</p>
+            <p>The current role is listed as IT Lead at Hudah Grp Ltd.</p>
+          </div>
+        </details>
+      </li>
+      <li>
+        <details class="msg-item">
+          <summary>
+            <span class="msg-dot" aria-hidden="true"></span>
+            <span class="msg-body">
+              <span class="msg-subject">Income summary available</span><br>
+              <span class="msg-preview">An income summary is available to view on your account…</span>
+            </span>
+            <span class="msg-date">24 October 2026</span>
+          </summary>
+          <div class="msg-full">
+            <p>An income summary is now available on your account.</p>
+            <p>The summary shows your gross income, Income Tax, employee National Insurance and take-home pay for your current role.</p>
+          </div>
+        </details>
+      </li>
+    </ul>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; <span data-year>2026</span> HMRC. <span class="muted">v1.0</span></p>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   HMRC — account interactions
+   ============================================================ */
+
+const PROFILE = {
+  fullName: "Belkacem CHEMLAL",
+  dob: "02 December 1995",
+  status: "Active",
+  email: "ch.belkacem12@gmail.com",
+  phone: "07309331809",
+  addressLines: ["Flat 33, Hopton Court", "Booth Street", "Manchester M15 6EP"]
+};
+
+const LOGIN_EMAIL = "ch.belkacem12@gmail.com";
+const LOGIN_PASSWORD = "Belkacem0212@";
+
+const JOBS = [
+  { employer: "Amazon", title: "", start: "10 October 2022", end: "30 April 2023", monthly: 1700 },
+  { employer: "Sparta Analysis", title: "Consultant", start: "4 May 2023", end: "15 February 2026", monthly: 2500 },
+  { employer: "Hudah Grp Ltd", title: "IT Lead", start: "18 February 2026", end: "Present", monthly: 3500 }
+];
+
+function estimateMonthly(grossMonthly) {
+  const annual = grossMonthly * 12;
+  const PA = 12570, NI_PT = 12570, BASIC_LIMIT = 50270;
+  const TAX_RATE = 0.20, NI_RATE = 0.08;
+  const taxable = Math.min(Math.max(0, annual - PA), BASIC_LIMIT);
+  const itMonthly = (taxable * TAX_RATE) / 12;
+  const niMonthly = (Math.max(0, annual - NI_PT) * NI_RATE) / 12;
+  return { annual, itMonthly, niMonthly, takeHome: grossMonthly - itMonthly - niMonthly };
+}
+
+const gbp = (n) => n.toLocaleString("en-GB", { style: "currency", currency: "GBP" });
+
+function isSignedIn() { return sessionStorage.getItem("session") === "1"; }
+function signOut() { sessionStorage.removeItem("session"); showPage("login"); }
+
+/* SPA page switching */
+function showPage(pageId) {
+  // Auth guard
+  const target = document.getElementById("page-" + pageId);
+  if (!target) return;
+  if (target.dataset.requiresAuth === "true" && !isSignedIn()) {
+    pageId = "login";
+  }
+
+  // Hide all, show target
+  document.querySelectorAll(".page-view").forEach(v => v.classList.remove("active"));
+  document.getElementById("page-" + pageId).classList.add("active");
+
+  // Update nav active state
+  document.querySelectorAll(".nav-link[data-page]").forEach(l => {
+    l.classList.toggle("active", l.dataset.page === pageId);
+  });
+
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  /* Mobile nav toggle */
+  const navToggle = document.getElementById("nav-toggle");
+  const mainNav = document.getElementById("main-nav");
+  if (navToggle && mainNav) {
+    navToggle.addEventListener("click", () => {
+      const open = mainNav.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.textContent = open ? "Close" : "Menu";
+    });
+  }
+
+  /* Render profile fields */
+  document.querySelectorAll("[data-profile]").forEach((el) => {
+    const key = el.dataset.profile;
+    if (key === "addressLines") {
+      el.innerHTML = PROFILE.addressLines.map(l => `<span>${l}</span>`).join("<br>");
+    } else if (PROFILE[key] !== undefined) {
+      el.textContent = PROFILE[key];
+    }
+  });
+
+  /* Login form */
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const error = document.getElementById("login-error");
+    const toggle = document.getElementById("toggle-password");
+
+    if (toggle) {
+      toggle.addEventListener("click", () => {
+        const show = password.type === "password";
+        password.type = show ? "text" : "password";
+        toggle.textContent = show ? "Hide" : "Show";
+        toggle.setAttribute("aria-label", show ? "Hide password" : "Show password");
+      });
+    }
+
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      error.hidden = true;
+      const em = email.value.trim();
+      if (!em) { error.textContent = "Enter your email address to continue."; error.hidden = false; email.focus(); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { error.textContent = "Enter an email address in the correct format, for example name@example.com."; error.hidden = false; email.focus(); return; }
+      if (!password.value) { error.textContent = "Enter your password to continue."; error.hidden = false; password.focus(); return; }
+      if (em.toLowerCase() === LOGIN_EMAIL && password.value === LOGIN_PASSWORD) {
+        sessionStorage.setItem("session", "1");
+        showPage("dashboard");
+      } else {
+        error.textContent = "The email address or password you entered is not recognised. Check your credentials and try again.";
+        error.hidden = false;
+      }
+    });
+  }
+
+  /* Employment table */
+  const empBody = document.getElementById("employment-rows");
+  if (empBody) {
+    empBody.innerHTML = JOBS.map(j => `
+      <tr>
+        <td><strong>${j.employer}</strong></td>
+        <td>${j.title || "—"}</td>
+        <td>${j.start}</td>
+        <td>${j.end}</td>
+        <td class="num">${gbp(j.monthly)}</td>
+      </tr>`).join("");
+  }
+
+  /* Tax table */
+  const taxBody = document.getElementById("tax-rows");
+  if (taxBody) {
+    taxBody.innerHTML = JOBS.map(j => {
+      const est = estimateMonthly(j.monthly);
+      return `
+      <tr>
+        <td><strong>${j.employer}</strong></td>
+        <td class="num">${gbp(j.monthly)}</td>
+        <td class="num">${gbp(est.annual)}</td>
+        <td class="num">${gbp(est.itMonthly)}</td>
+        <td class="num">${gbp(est.niMonthly)}</td>
+        <td class="num"><strong>${gbp(est.takeHome)}</strong></td>
+      </tr>`;
+    }).join("");
+  }
+
+  /* Dashboard stats */
+  const current = JOBS[JOBS.length - 1];
+  const est = estimateMonthly(current.monthly);
+  document.querySelectorAll("[data-stat]").forEach((el) => {
+    const map = { gross: gbp(current.monthly), tax: gbp(est.itMonthly), ni: gbp(est.niMonthly), take: gbp(est.takeHome) };
+    el.textContent = map[el.dataset.stat] || "";
+  });
+
+  /* Footer year */
+  document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Date().getFullYear(); });
+});
+</script>
+
+</body>
+</html>
